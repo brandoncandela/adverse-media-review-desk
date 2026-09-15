@@ -6,6 +6,60 @@
 
 An independent AML portfolio prototype by Brandon Candela for comparing an individual or business with an adverse media subject, recording an explained disposition, and preserving a QC snapshot.
 
+## SQL portfolio: start here
+
+**Business problem:** an AML analyst needs to separate identity evidence from missing information and explain which media hits need further review. SQL makes the training evidence queryable and the example triage logic inspectable.
+
+| SQL skill | Working evidence | AML purpose |
+| --- | --- | --- |
+| Relational modeling and foreign keys | [Training schema and migrations](drizzle/0000_careless_human_fly.sql) | Link each comparison to its training case |
+| CTEs, conditional aggregation and CASE | [Training triage view](drizzle/0002_triage_view.sql) | Turn recorded comparison states into explained review categories |
+| JOINs | [Database-backed examples endpoint](app/api/examples/route.ts) | Combine case details with the SQL-derived disposition |
+| GROUP BY and COUNT | [Examples endpoint](app/api/examples/route.ts) | Summarize matches, variants, conflicts and unknowns by identifier |
+| JSON extraction | [SQL view](drizzle/0002_triage_view.sql) | Check verification status and source evidence |
+| Schema design | [Downloadable SQL](public/data-model.sql) | Inspect working training tables and a separately labeled proposed case store |
+
+### A three-minute technical walkthrough
+
+1. Open the browser demo and inspect the fictional training examples.
+2. Read the SQL view: explain why matching name and DOB still require escalation when location differs.
+3. Inspect the endpoint JOIN and aggregation. These queries run against Cloudflare D1, which uses SQLite.
+4. Run the reproducible SQL examples below. Explain what the results establish and what the small fixture dataset cannot establish.
+
+### Run the SQL locally
+
+With SQLite installed, load the fictional dataset into an in-memory database:
+
+```sh
+sqlite3 :memory: ".read public/data-model.sql"
+```
+
+Or apply the three files in `drizzle/` in order to an empty SQLite database. Then run:
+
+```sql
+-- Review workload by rule-based disposition.
+SELECT disposition, COUNT(*) AS training_case_count
+FROM training_triage
+GROUP BY disposition
+ORDER BY training_case_count DESC, disposition;
+
+-- Identify evidence gaps without treating unknown values as mismatches.
+SELECT field, COUNT(*) AS unknown_comparisons
+FROM comparison_examples
+WHERE state = 'unknown'
+GROUP BY field
+ORDER BY unknown_comparisons DESC, field;
+
+-- Check the view against the curated expected outcomes.
+-- Zero rows means fixture agreement, not measured real-world accuracy.
+SELECT t.id, t.expected_disposition, v.disposition AS sql_disposition
+FROM training_cases AS t
+LEFT JOIN training_triage AS v ON v.id = t.id
+WHERE v.id IS NULL OR t.expected_disposition <> v.disposition;
+```
+
+**Scope:** nine synthetic cases and 27 comparisons. This demonstrates SQL implementation and investigative reasoning, not large-scale performance, calibrated identity probabilities or production database administration. Browser-entered customer reviews are not stored in the shared training database. The additional normalized case-store tables in the downloadable file are a proposal, not a deployed customer database.
+
 ## Browser workflow
 
 1. Open the app and review the fictional John Smith case, or start a new case.
