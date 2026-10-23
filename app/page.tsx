@@ -46,6 +46,7 @@ import {
   exportReviews,
   type ReviewEntry,
 } from "@/lib/reviews";
+import { searchNewsInBrowser } from "@/lib/news";
 function Choice({
   label,
   value,
@@ -135,7 +136,8 @@ export default function Home() {
   const h = (k: keyof Hit, v: string | boolean) =>
     setHit({ ...hit, [k]: v, verified: k === "verified" ? Boolean(v) : false });
   useEffect(() => {
-    fetch("/api/examples")
+    // The GitHub Pages build (vite --mode pages) reads examples.json, exported from the same SQL by scripts/export-examples.mjs.
+    fetch(import.meta.env.MODE === "pages" ? "examples.json" : "/api/examples")
       .then(async (r) => {
         const d: any = await r.json();
         if (!r.ok) throw Error(d.error);
@@ -241,6 +243,10 @@ export default function Home() {
     setError("");
     setNews(null);
     try {
+      if (import.meta.env.MODE === "pages") {
+        setNews(await searchNewsInBrowser(party.name));
+        return;
+      }
       const r = await fetch("/api/news", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
