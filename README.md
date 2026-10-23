@@ -2,7 +2,7 @@
 
 ![Adverse Media Review Desk](docs/social-preview.jpg)
 
-**[▶ Open the live demo](https://brandon-adverse-media-review-desk.brandon-d-candela.chatgpt.site/)** · [Portfolio](https://brandoncandela.github.io/) · [LinkedIn](https://www.linkedin.com/in/brandon-candela/) · Built by Brandon Candela, CAMS
+**[▶ Open the live demo](https://brandoncandela.github.io/adverse-media-review-desk/)** · [Portfolio](https://brandoncandela.github.io/) · [LinkedIn](https://www.linkedin.com/in/brandon-candela/) · Built by Brandon Candela, CAMS
 
 > **What this shows:** Identity resolution that treats missing data as unknown rather than a mismatch, SQL triage logic on D1/SQLite and a QC-ready review trail.
 
@@ -128,3 +128,7 @@ The left panel holds analyst-entered bank information; the right holds the selec
 A case can contain up to 25 hits with independent notes, decisions and QC snapshots. Selecting another hit preserves the current draft. Exact duplicate URLs reopen the existing review. Export includes every hit and marks QC snapshots stale after material edits. Case drafts remain in the current tab.
 
 The model recognizes supplied source aliases, possible additional or repeated surnames, and common US/UK country abbreviations. These are explainable candidate signals, not probabilistic identity confirmation. PEP/public-role records and sanctions/list records carry separate context from adverse media. Source reliability is analyst-assessed and is not an automatic score.
+
+## Static build (GitHub Pages)
+
+The live demo is a static build of the same app, with no server or database. `npm run build:pages` exports the training examples by applying the Drizzle migrations to SQLite and running the same queries as the D1 route ([scripts/export-examples.mjs](scripts/export-examples.mjs)), then writes `pages-dist/`, which is published to the `gh-pages` branch. In this build the news search calls GDELT directly from the browser ([lib/news.ts](lib/news.ts)). The Cloudflare build (`npm run build`) is unchanged.
