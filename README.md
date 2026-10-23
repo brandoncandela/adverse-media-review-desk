@@ -1,8 +1,10 @@
 # Adverse Media Review Desk
 
-**Brandon Candela · AML transaction monitoring, adverse media investigations and SQL analysis**
+![Adverse Media Review Desk](docs/social-preview.jpg)
 
-[Open the public browser demo](https://brandon-adverse-media-review-desk.brandon-d-candela.chatgpt.site/) · [GitHub profile](https://github.com/brandoncandela)
+**[▶ Open the live demo](https://brandon-adverse-media-review-desk.brandon-d-candela.chatgpt.site/)** · [Portfolio](https://brandoncandela.github.io/) · [LinkedIn](https://www.linkedin.com/in/brandon-candela/) · Built by Brandon Candela, CAMS
+
+> **What this shows:** Identity resolution that treats missing data as unknown rather than a mismatch, SQL triage logic on D1/SQLite and a QC-ready review trail.
 
 An independent AML portfolio prototype by Brandon Candela for comparing an individual or business with an adverse media subject, recording an explained disposition, and preserving a QC snapshot.
 
