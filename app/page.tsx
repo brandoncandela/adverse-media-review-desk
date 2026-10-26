@@ -363,20 +363,17 @@ export default function Home() {
     <main className="desk">
       <header>
         <a className="brand" href="/">
-          AM <span>/</span> REVIEW DESK
+          <span className="brand-mark">AM</span> Review Desk
         </a>
-        <span><a href="https://github.com/brandoncandela" target="_blank" rel="noopener noreferrer">Brandon Candela</a> · Independent AML work sample</span>
-        <a className="link-button" href="https://github.com/brandoncandela/adverse-media-review-desk" target="_blank" rel="noopener noreferrer">View on GitHub</a><Button variant="outline" onClick={download}>
-          <Download size={16} /> Export all hits
-        </Button>
+        <nav className="header-nav" aria-label="Project links">
+          <a href="https://brandoncandela.github.io/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+          <a href="https://github.com/brandoncandela/adverse-media-review-desk" target="_blank" rel="noopener noreferrer">Source code</a>
+          <Button variant="outline" onClick={download}><Download size={16} /> Export case</Button>
+        </nav>
       </header>
       <section className="intro">
-        <p className="eyebrow">ADVERSE MEDIA · IDENTITY REVIEW</p>
-        <h1>Bank record. Media subject. Compare the evidence.</h1>
-        <p>
-          One customer, multiple hits, a separate explanation for every
-          decision.
-        </p>
+        <div><h1>Bank record. Media subject. Compare the evidence.</h1><p>Resolve incomplete identities, document every media hit and preserve a reviewable QC trail.</p></div>
+        <aside><strong>First-line AML workflow</strong><span>Name screening · identity evidence · SQL triage · QC review</span></aside>
       </section>
       <div className="notice">
         <span>
