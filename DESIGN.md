@@ -20,5 +20,5 @@ This is an analyst workstation, not a marketing dashboard. It should feel like a
 ## Layout
 
 - Desktop: stable case navigation beside a wide comparison workspace.
-- Mobile: a single-column workflow with scrollable evidence tables where necessary.
+- Mobile: a single-column workflow; identity comparisons become labeled vertical records so bank details, source details and reasoning can be read together.
 - Explanatory copy stays within a comfortable reading measure.
