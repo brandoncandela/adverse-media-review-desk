@@ -46,7 +46,6 @@ import {
   exportReviews,
   type ReviewEntry,
 } from "@/lib/reviews";
-import { searchNewsInBrowser } from "@/lib/news";
 function Choice({
   label,
   value,
@@ -136,8 +135,7 @@ export default function Home() {
   const h = (k: keyof Hit, v: string | boolean) =>
     setHit({ ...hit, [k]: v, verified: k === "verified" ? Boolean(v) : false });
   useEffect(() => {
-    // The GitHub Pages build (vite --mode pages) reads examples.json, exported from the same SQL by scripts/export-examples.mjs.
-    fetch(import.meta.env.MODE === "pages" ? "examples.json" : "/api/examples")
+    fetch("/api/examples")
       .then(async (r) => {
         const d: any = await r.json();
         if (!r.ok) throw Error(d.error);
@@ -243,10 +241,6 @@ export default function Home() {
     setError("");
     setNews(null);
     try {
-      if (import.meta.env.MODE === "pages") {
-        setNews(await searchNewsInBrowser(party.name));
-        return;
-      }
       const r = await fetch("/api/news", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -363,17 +357,19 @@ export default function Home() {
     <main className="desk">
       <header>
         <a className="brand" href="/">
-          <span className="brand-mark">AM</span> Review Desk
+          AM <span>/</span> REVIEW DESK
         </a>
-        <nav className="header-nav" aria-label="Project links">
-          <a href="https://brandoncandela.github.io/" target="_blank" rel="noopener noreferrer">Portfolio</a>
-          <a href="https://github.com/brandoncandela/adverse-media-review-desk" target="_blank" rel="noopener noreferrer">Source code</a>
-          <Button variant="outline" onClick={download}><Download size={16} /> Export case</Button>
-        </nav>
+        <span><a href="https://github.com/brandoncandela" target="_blank" rel="noopener noreferrer">Brandon Candela</a> · Independent AML work sample</span>
+        <a className="link-button" href="https://github.com/brandoncandela/adverse-media-review-desk" target="_blank" rel="noopener noreferrer">View on GitHub</a><Button variant="outline" onClick={download}>
+          <Download size={16} /> Export all hits
+        </Button>
       </header>
       <section className="intro">
-        <div><h1>Bank record. Media subject. Compare the evidence.</h1><p>Resolve incomplete identities, document every media hit and preserve a reviewable QC trail.</p></div>
-        <aside><strong>First-line AML workflow</strong><span>Name screening · identity evidence · SQL triage · QC review</span></aside>
+        <h1>Bank record. Media subject. Compare the evidence.</h1>
+        <p>
+          One customer, multiple hits, a separate explanation for every
+          decision.
+        </p>
       </section>
       <div className="notice">
         <span>
