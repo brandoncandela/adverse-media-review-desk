@@ -46,6 +46,7 @@ import {
   exportReviews,
   type ReviewEntry,
 } from "@/lib/reviews";
+import { searchNewsInBrowser } from "@/lib/news";
 function Choice({
   label,
   value,
@@ -135,7 +136,8 @@ export default function Home() {
   const h = (k: keyof Hit, v: string | boolean) =>
     setHit({ ...hit, [k]: v, verified: k === "verified" ? Boolean(v) : false });
   useEffect(() => {
-    fetch("/api/examples")
+    // examples.json is produced from sql/migrations by scripts/export-examples.mjs.
+    fetch("examples.json")
       .then(async (r) => {
         const d: any = await r.json();
         if (!r.ok) throw Error(d.error);
@@ -241,14 +243,7 @@ export default function Home() {
     setError("");
     setNews(null);
     try {
-      const r = await fetch("/api/news", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: party.name }),
-      });
-      const d: any = await r.json();
-      if (!r.ok) throw Error(d.error);
-      setNews(d);
+      setNews(await searchNewsInBrowser(party.name));
     } catch (e: any) {
       setError(e.message || "News search unavailable.");
     } finally {
@@ -924,7 +919,7 @@ export default function Home() {
               <p className="eyebrow">SQL TRAINING DATA</p>
               <h2>Test the edge cases.</h2>
               <p>
-                These fictional cases are stored in SQLite / Cloudflare D1.
+                These fictional cases come from a SQLite database built from the project's SQL files.
                 Loading an example replaces the current unsaved review.
               </p>
               {dbError && <p className="error">{dbError}</p>}

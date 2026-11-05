@@ -1,12 +1,12 @@
-// Builds public/examples.json for the static GitHub Pages build by applying the
-// Drizzle migrations to an in-memory SQLite database and running the same
-// queries as app/api/examples/route.ts. Usage: node scripts/export-examples.mjs
+// Builds public/examples.json: applies sql/migrations to an in-memory SQLite
+// database and exports the training cases with their SQL-derived disposition.
+// Usage: node scripts/export-examples.mjs
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 
 const db = new DatabaseSync(":memory:");
-for (const file of readdirSync("drizzle").filter((f) => f.endsWith(".sql")).sort())
-  for (const statement of readFileSync(`drizzle/${file}`, "utf8").split("--> statement-breakpoint"))
+for (const file of readdirSync("sql/migrations").filter((f) => f.endsWith(".sql")).sort())
+  for (const statement of readFileSync(`sql/migrations/${file}`, "utf8").split("--> statement-breakpoint"))
     if (statement.trim()) db.exec(statement);
 
 const cases = db
@@ -24,7 +24,7 @@ writeFileSync(
   JSON.stringify({
     cases,
     summary,
-    source: "SQLite (same migrations and queries as the Cloudflare D1 build)",
+    source: "SQLite (sql/migrations)",
     scope: "Synthetic training examples only",
   }) + "\n",
 );
