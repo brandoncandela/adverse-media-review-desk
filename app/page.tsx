@@ -359,12 +359,15 @@ export default function Home() {
           <Download size={16} /> Export all hits
         </Button>
       </header>
-      <section className="intro">
-        <h1>Bank record. Media subject. Compare the evidence.</h1>
-        <p>
-          One customer, multiple hits, a separate explanation for every
-          decision.
-        </p>
+      <section className="intro ap-hero">
+        <div>
+          <h1 className="ap-gradient">Bank record. Media subject. Compare the evidence.</h1>
+          <p>
+            One customer, multiple hits, a separate explanation for every
+            decision.
+          </p>
+        </div>
+        <img className="ap-art" src={import.meta.env.BASE_URL + "hero-art.svg"} width={560} height={440} alt="Illustration: news articles under a magnifying glass with matching identifiers" />
       </section>
       <div className="notice">
         <span>

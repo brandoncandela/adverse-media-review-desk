@@ -1,0 +1,104 @@
+/* Shared look for Brandon Candela's portfolio demos: white page, drifting blues,
+   frosted cards, black pill buttons. Loaded after each project's own stylesheet. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --ap-bg: #fbfcff;
+  --ap-ink: #1d1d1f;
+  --ap-muted: #55555d;
+  --ap-faint: #86868b;
+  --ap-blue: #0066cc;
+  --ap-blue-strong: #005bb8;
+  --ap-blue-soft: rgb(0 102 204 / .08);
+  --ap-line: rgb(29 29 31 / .09);
+  --ap-glass: rgb(255 255 255 / .74);
+  --ap-shadow: 0 1px 0 rgb(255 255 255 / .8) inset, 0 12px 32px rgb(30 58 138 / .07);
+  --ap-red: #c4302b;
+  --ap-amber: #b26a00;
+  --ap-green: #2f7d4f;
+  color-scheme: light;
+}
+
+html { background: var(--ap-bg); }
+body {
+  background: var(--ap-bg) !important;
+  color: var(--ap-ink);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Drifting multi-blue background */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  inset: -20vmax;
+  z-index: -1;
+  pointer-events: none;
+}
+body::before {
+  background:
+    radial-gradient(38vmax 30vmax at 12% 8%, rgb(90 169 255 / .40), transparent 70%),
+    radial-gradient(34vmax 28vmax at 88% 18%, rgb(139 147 255 / .34), transparent 70%),
+    radial-gradient(30vmax 26vmax at 70% 92%, rgb(56 198 244 / .28), transparent 70%);
+  animation: ap-drift-a 32s ease-in-out infinite alternate;
+}
+body::after {
+  background:
+    radial-gradient(30vmax 24vmax at 30% 70%, rgb(79 99 230 / .22), transparent 70%),
+    radial-gradient(36vmax 28vmax at 55% 35%, rgb(165 200 255 / .30), transparent 70%);
+  animation: ap-drift-b 41s ease-in-out infinite alternate;
+}
+@keyframes ap-drift-a { to { transform: translate3d(4vmax, 3vmax, 0) rotate(8deg); } }
+@keyframes ap-drift-b { to { transform: translate3d(-5vmax, -2vmax, 0) rotate(-6deg) scale(1.08); } }
+
+/* Gradient headline, same as the portfolio name */
+.ap-gradient {
+  background: linear-gradient(100deg, #1d1d1f 0%, #1e3a8a 40%, #2563eb 70%, #4338ca 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  animation: ap-shift 14s ease-in-out infinite alternate;
+}
+@keyframes ap-shift { to { background-position: 100% 0; } }
+
+/* Frosted top bar */
+.ap-bar {
+  background: rgb(251 252 255 / .72) !important;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border-bottom: 1px solid var(--ap-line) !important;
+  color: var(--ap-ink) !important;
+}
+
+/* Hero with illustration */
+.ap-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .9fr); gap: 40px; align-items: center; }
+.ap-hero > * { min-width: 0; }
+.ap-art {
+  width: 100%; height: auto; display: block;
+  border-radius: 24px;
+  filter: drop-shadow(0 24px 48px rgb(30 58 138 / .12));
+  animation: ap-float 9s ease-in-out infinite alternate;
+}
+@keyframes ap-float { to { transform: translateY(-10px); } }
+@media (max-width: 860px) {
+  .ap-hero { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .ap-art { max-width: 460px; }
+}
+
+/* Entrance and hover motion */
+.ap-reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .8, .2, 1); }
+.ap-reveal.ap-in { opacity: 1; transform: none; }
+.ap-lift { transition: transform .25s ease, box-shadow .25s ease; }
+.ap-lift:hover { transform: translateY(-3px); box-shadow: 0 1px 0 rgb(255 255 255 / .8) inset, 0 18px 40px rgb(30 58 138 / .12); }
+
+::selection { background: rgb(0 102 204 / .18); }
+
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after, .ap-gradient, .ap-art { animation: none !important; }
+  .ap-reveal { opacity: 1; transform: none; transition: none; }
+  .ap-lift, .ap-lift:hover { transition: none; transform: none; }
+}

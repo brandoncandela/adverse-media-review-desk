@@ -1,0 +1,38 @@
+/* White and blue portfolio look for this desk, with an indigo violet accent. Imported after globals.css and apple.css. */
+:root, .dark {
+  --background: #fbfcff;
+  --foreground: #1d1d1f;
+  --primary: #5856d6;
+  --primary-foreground: #fff;
+  --secondary: #f1f2fb;
+  --glass: rgb(255 255 255 / .74);
+  --glass-shadow: 0 1px 0 rgb(255 255 255 / .8) inset, 0 12px 32px rgb(30 58 138 / .07);
+}
+body { font-family: "Inter", system-ui, sans-serif; }
+a { color: #5856d6; }
+
+header {
+  position: sticky; top: 0; z-index: 20; padding: 14px 0;
+  background: rgb(251 252 255 / .72); border-bottom: 1px solid rgb(29 29 31 / .09);
+  backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.brand { letter-spacing: .02em; color: #1d1d1f; text-decoration: none; }
+.brand span { color: #5856d6; }
+
+.intro.ap-hero { max-width: none; padding: 40px 0 28px; }
+.intro h1 { font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -.035em; font-weight: 800; }
+.intro p { font-size: 19px; color: #55555d; max-width: 640px; }
+.intro .ap-art { max-width: 460px; justify-self: end; }
+.eyebrow { color: #5856d6; letter-spacing: .04em; }
+
+.panel, .notice {
+  background: var(--glass); border: 1px solid rgb(255 255 255 / .7); border-radius: 18px;
+  box-shadow: var(--glass-shadow); backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.link-button, .desk button.rounded-md { border-radius: 999px; }
+.desk button.rounded-md.bg-primary { background: #1d1d1f; }
+.desk button.rounded-md.bg-primary:hover { background: #000; }
+
+@media (max-width: 860px) {
+  .intro .ap-art { justify-self: start; max-width: 380px; }
+}
